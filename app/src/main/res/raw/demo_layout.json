@@ -1,0 +1,414 @@
+{
+  "StreetNodes": [
+    {
+      "id": 0,
+      "left": 50,
+      "top": 75,
+      "right": 100,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [1, 16, 20]
+    },
+    {
+      "id": 1,
+      "left": 100,
+      "top": 75,
+      "right": 150,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [2, 17, 21]
+    },
+    {
+      "id": 2,
+      "left": 150,
+      "top": 75,
+      "right": 200,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [3, 18, 22]
+    },
+    {
+      "id": 3,
+      "left": 200,
+      "top": 75,
+      "right": 250,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [4, 19, 23]
+    },
+    {
+      "id": 4,
+      "left": 250,
+      "top": 75,
+      "right": 300,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [5]
+    },
+    {
+      "id": 5,
+      "left": 250,
+      "top": 125,
+      "right": 300,
+      "bottom": 200,
+      "paintBoundaries": [],
+      "wallBoundaries": ["LEFT"],
+      "adjacentIds": [6]
+    },
+    {
+      "id": 6,
+      "left": 250,
+      "top": 200,
+      "right": 300,
+      "bottom": 275,
+      "paintBoundaries": [],
+      "wallBoundaries": ["LEFT"],
+      "adjacentIds": [7]
+    },
+    {
+      "id": 7,
+      "left": 250,
+      "top": 275,
+      "right": 300,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [8]
+    },
+    {
+      "id": 8,
+      "left": 200,
+      "top": 275,
+      "right": 250,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [9, 27, 31]
+    },
+    {
+      "id": 9,
+      "left": 150,
+      "top": 275,
+      "right": 200,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [10, 26, 30]
+    },
+    {
+      "id": 10,
+      "left": 100,
+      "top": 275,
+      "right": 150,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [11, 25, 29]
+    },
+    {
+      "id": 11,
+      "left": 50,
+      "top": 275,
+      "right": 100,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [12, 24, 28]
+    },
+    {
+      "id": 12,
+      "left": 0,
+      "top": 275,
+      "right": 50,
+      "bottom": 325,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [13]
+    },
+    {
+      "id": 13,
+      "left": 0,
+      "top": 200,
+      "right": 50,
+      "bottom": 275,
+      "paintBoundaries": [],
+      "wallBoundaries": ["RIGHT"],
+      "adjacentIds": [14]
+    },
+    {
+      "id": 14,
+      "left": 0,
+      "top": 125,
+      "right": 50,
+      "bottom": 200,
+      "paintBoundaries": [],
+      "wallBoundaries": ["RIGHT"],
+      "adjacentIds": [15]
+    },
+    {
+      "id": 15,
+      "left": 0,
+      "top": 75,
+      "right": 50,
+      "bottom": 125,
+      "paintBoundaries": [],
+      "wallBoundaries": [],
+      "adjacentIds": [0]
+    }
+  ],
+  "ParkingNodes": [
+    {
+      "id": 16,
+      "left": 50,
+      "top": 0,
+      "right": 100,
+      "bottom": 75,
+      "paintBoundaries": ["RIGHT"],
+      "wallBoundaries": ["LEFT"],
+      "isOccupied": false,
+      "adjacentIds": [0]
+    },
+    {
+      "id": 17,
+      "left": 100,
+      "top": 0,
+      "right": 150,
+      "bottom": 75,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": [],
+      "isOccupied": false,
+      "adjacentIds": [1]
+    },
+    {
+      "id": 18,
+      "left": 150,
+      "top": 0,
+      "right": 200,
+      "bottom": 75,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": [],
+      "isOccupied": true,
+      "adjacentIds": [2]
+    },
+    {
+      "id": 19,
+      "left": 200,
+      "top": 0,
+      "right": 250,
+      "bottom": 75,
+      "paintBoundaries": ["LEFT"],
+      "wallBoundaries": ["RIGHT"],
+      "isOccupied": false,
+      "adjacentIds": [3]
+    },
+    {
+      "id": 20,
+      "left": 50,
+      "top": 125,
+      "right": 100,
+      "bottom": 200,
+      "paintBoundaries": ["RIGHT"],
+      "wallBoundaries": ["LEFT", "BOTTOM"],
+      "isOccupied": false,
+      "adjacentIds": [0]
+    },
+    {
+      "id": 21,
+      "left": 100,
+      "top": 125,
+      "right": 150,
+      "bottom": 200,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": ["BOTTOM"],
+      "isOccupied": true,
+      "adjacentIds": [1]
+    },
+    {
+      "id": 22,
+      "left": 150,
+      "top": 125,
+      "right": 200,
+      "bottom": 200,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": ["BOTTOM"],
+      "isOccupied": true,
+      "adjacentIds": [2]
+    },
+    {
+      "id": 23,
+      "left": 200,
+      "top": 125,
+      "right": 250,
+      "bottom": 200,
+      "paintBoundaries": ["LEFT"],
+      "wallBoundaries": ["RIGHT", "BOTTOM"],
+      "isOccupied": false,
+      "adjacentIds": [3]
+    },
+    {
+      "id": 24,
+      "left": 50,
+      "top": 200,
+      "right": 100,
+      "bottom": 275,
+      "paintBoundaries": ["RIGHT"],
+      "wallBoundaries": ["LEFT", "TOP"],
+      "isOccupied": false,
+      "adjacentIds": [11]
+    },
+    {
+      "id": 25,
+      "left": 100,
+      "top": 200,
+      "right": 150,
+      "bottom": 275,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": ["TOP"],
+      "isOccupied": false,
+      "adjacentIds": [10]
+    },
+    {
+      "id": 26,
+      "left": 150,
+      "top": 200,
+      "right": 200,
+      "bottom": 275,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": ["TOP"],
+      "isOccupied": false,
+      "adjacentIds": [9]
+    },
+    {
+      "id": 27,
+      "left": 200,
+      "top": 200,
+      "right": 250,
+      "bottom": 275,
+      "paintBoundaries": ["LEFT"],
+      "wallBoundaries": ["RIGHT", "TOP"],
+      "isOccupied": false,
+      "adjacentIds": [8]
+    },
+    {
+      "id": 28,
+      "left": 50,
+      "top": 325,
+      "right": 100,
+      "bottom": 400,
+      "paintBoundaries": ["RIGHT"],
+      "wallBoundaries": ["LEFT"],
+      "isOccupied": false,
+      "adjacentIds": [11]
+    },
+    {
+      "id": 29,
+      "left": 100,
+      "top": 325,
+      "right": 150,
+      "bottom": 400,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": [],
+      "isOccupied": false,
+      "adjacentIds": [10]
+    },
+    {
+      "id": 30,
+      "left": 150,
+      "top": 325,
+      "right": 200,
+      "bottom": 400,
+      "paintBoundaries": ["LEFT", "RIGHT"],
+      "wallBoundaries": [],
+      "isOccupied": false,
+      "adjacentIds": [9]
+    },
+    {
+      "id": 31,
+      "left": 200,
+      "top": 325,
+      "right": 250,
+      "bottom": 400,
+      "paintBoundaries": ["LEFT"],
+      "wallBoundaries": ["RIGHT"],
+      "isOccupied": true,
+      "adjacentIds": [8]
+    }
+  ],
+  "GateNodes": [
+    {
+      "id": 32,
+      "left": 0,
+      "top": 0,
+      "right": 50,
+      "bottom": 75,
+      "paintBoundaries": [],
+      "wallBoundaries": ["RIGHT"],
+      "isEntrance": false
+    },
+    {
+      "id": 33,
+      "left": 250,
+      "top": 0,
+      "right": 300,
+      "bottom": 75,
+      "paintBoundaries": [],
+      "wallBoundaries": ["LEFT"],
+      "isEntrance": true
+    },
+    {
+      "id": 34,
+      "left": 0,
+      "top": 325,
+      "right": 50,
+      "bottom": 400,
+      "paintBoundaries": [],
+      "wallBoundaries": ["RIGHT"],
+      "isEntrance": true
+    },
+    {
+      "id": 35,
+      "left": 250,
+      "top": 325,
+      "right": 300,
+      "bottom": 400,
+      "paintBoundaries": [],
+      "wallBoundaries": ["LEFT"],
+      "isEntrance": false
+    }
+  ],
+  "ArrowNodes": [
+    {
+      "id": 36,
+      "startX": 100,
+      "startY": 100,
+      "endX": 200,
+      "endY": 100
+    },
+    {
+      "id": 37,
+      "startX": 275,
+      "startY": 150,
+      "endX": 275,
+      "endY": 250
+    },
+    {
+      "id": 38,
+      "startX": 200,
+      "startY": 300,
+      "endX": 100,
+      "endY": 300
+    },
+    {
+      "id": 39,
+      "startX": 25,
+      "startY": 250,
+      "endX": 25,
+      "endY": 150
+    }
+  ]
+}

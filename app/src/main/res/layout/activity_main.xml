@@ -17,12 +17,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.parq_indoor.ParkingView
-        android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:id="@+id/parkingView"
+        android:layout_width="330dp"
+        android:layout_height="430dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:padding="15dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
