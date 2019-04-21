@@ -27,12 +27,16 @@ public class ParkingView extends View {
     private Paint arrowNodePaint;
     private Paint paintBoundaryPaint;
     private Paint wallBoundaryPaint;
+    private Paint occupiedSymbolRedPaint;
+    private Paint occupiedSymbolWhitePaint;
     private float minX;
     private float maxX;
     private float minY;
     private float maxY;
     private final float PAINT_THICKNESS = 5; // dp
     private final float WALL_THICKNESS = 15; // dp
+    private final float OCCUPIED_SYMBOL_RADIUS = 12; // dp
+    private final float OCCUPIED_SYMBOL_RECTANGLE_RADIUS = 3;
 
     public ParkingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -80,6 +84,16 @@ public class ParkingView extends View {
         wallBoundaryPaint.setColor(Color.DKGRAY);
         wallBoundaryPaint.setStyle(Paint.Style.FILL);
         wallBoundaryPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        occupiedSymbolRedPaint = new Paint();
+        occupiedSymbolRedPaint.setColor(Color.RED);
+        occupiedSymbolRedPaint.setStyle(Paint.Style.FILL);
+        occupiedSymbolRedPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        occupiedSymbolWhitePaint = new Paint();
+        occupiedSymbolWhitePaint.setColor(Color.WHITE);
+        occupiedSymbolWhitePaint.setStyle(Paint.Style.FILL);
+        occupiedSymbolWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
     }
 
     public void setLayoutGraph(LayoutGraph layoutGraph) {
@@ -187,11 +201,26 @@ public class ParkingView extends View {
         }
     }
 
+    private void drawOccupiedSymbol(Canvas canvas, float centerX, float centerY) {
+        canvas.drawCircle(
+                centerX,
+                centerY,
+                Utils.dpToPx(OCCUPIED_SYMBOL_RADIUS, getContext()),
+                occupiedSymbolRedPaint);
+        canvas.drawRoundRect(
+                centerX - Utils.dpToPx(OCCUPIED_SYMBOL_RADIUS / 2, getContext()),
+                centerY - Utils.dpToPx(OCCUPIED_SYMBOL_RADIUS / 6, getContext()),
+                centerX + Utils.dpToPx(OCCUPIED_SYMBOL_RADIUS / 2, getContext()),
+                centerY + Utils.dpToPx(OCCUPIED_SYMBOL_RADIUS / 6, getContext()),
+                OCCUPIED_SYMBOL_RECTANGLE_RADIUS,
+                OCCUPIED_SYMBOL_RECTANGLE_RADIUS,
+                occupiedSymbolWhitePaint);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // TODO draw occupied symbol on occupied
         List<LayoutNode> nodes = layoutGraph.nodes;
 
         for (LayoutNode layoutNode: nodes) {
@@ -207,8 +236,9 @@ public class ParkingView extends View {
                 ParkingNode parkingNode = (ParkingNode) layoutNode;
                 Rect rect = adjustRectForCanvas(parkingNode.rect);
                 if (parkingNode.isOccupied) {
-                    canvas.drawRect(rect, occupiedParkingNodePaint);
-//                    canvas.drawRect(rect, streetNodePaint);
+//                    canvas.drawRect(rect, occupiedParkingNodePaint);
+                    canvas.drawRect(rect, streetNodePaint);
+                    drawOccupiedSymbol(canvas, rect.centerX(), rect.centerY());
                 } else {
 //                    canvas.drawRect(rect, unoccupiedParkingNodePaint);
                     canvas.drawRect(rect, streetNodePaint);
