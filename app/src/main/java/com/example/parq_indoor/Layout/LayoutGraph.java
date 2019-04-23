@@ -15,4 +15,13 @@ public class LayoutGraph {
             node.buildAdjacentNodes(this);
         }
     }
+
+    public LayoutNode findNodeById(int id) {
+        for (LayoutNode layoutNode: nodes) {
+            if (layoutNode.id == id) {
+                return layoutNode;
+            }
+        }
+        return null;
+    }
 }

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.parq_indoor.Layout.ArrowNode;
@@ -17,26 +18,32 @@ import com.example.parq_indoor.Layout.ParkingNode;
 import com.example.parq_indoor.Layout.RectangleNode;
 import com.example.parq_indoor.Layout.StreetNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingView extends View {
     private LayoutGraph layoutGraph;
     private Paint streetNodePaint;
-    private Paint unoccupiedParkingNodePaint;
-    private Paint occupiedParkingNodePaint;
     private Paint arrowNodePaint;
     private Paint paintBoundaryPaint;
     private Paint wallBoundaryPaint;
     private Paint occupiedSymbolRedPaint;
     private Paint occupiedSymbolWhitePaint;
+    private Paint currentLocationSymbolPaint;
+    private Paint pathPaint;
     private float minX;
     private float maxX;
     private float minY;
     private float maxY;
+    private StreetNode startNode;
+    private ParkingNode endNode;
+    private List<LayoutNode> path;
     private final float PAINT_THICKNESS = 5; // dp
     private final float WALL_THICKNESS = 15; // dp
     private final float OCCUPIED_SYMBOL_RADIUS = 12; // dp
     private final float OCCUPIED_SYMBOL_RECTANGLE_RADIUS = 3;
+    private final float CURRENT_LOCATION_SYMBOL_THICKNESS = 5;
+    private final float CURRENT_LOCATION_SYMBOL_RADIUS = 10; // dp
 
     public ParkingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -56,23 +63,15 @@ public class ParkingView extends View {
 
         layoutGraph = new LayoutGraph();
 
+        path = new ArrayList<>();
+
         streetNodePaint = new Paint();
         streetNodePaint.setColor(Color.GRAY);
         streetNodePaint.setStyle(Paint.Style.FILL);
         streetNodePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-        unoccupiedParkingNodePaint = new Paint();
-        unoccupiedParkingNodePaint.setColor(Color.GREEN);
-        unoccupiedParkingNodePaint.setStyle(Paint.Style.FILL);
-        unoccupiedParkingNodePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-
-        occupiedParkingNodePaint = new Paint();
-        occupiedParkingNodePaint.setColor(Color.RED);
-        occupiedParkingNodePaint.setStyle(Paint.Style.FILL);
-        occupiedParkingNodePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-
         arrowNodePaint = new Paint();
-        arrowNodePaint.setColor(Color.WHITE);
+        arrowNodePaint.setColor(Color.LTGRAY);
         arrowNodePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
         paintBoundaryPaint = new Paint();
@@ -94,10 +93,25 @@ public class ParkingView extends View {
         occupiedSymbolWhitePaint.setColor(Color.WHITE);
         occupiedSymbolWhitePaint.setStyle(Paint.Style.FILL);
         occupiedSymbolWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        currentLocationSymbolPaint = new Paint();
+        currentLocationSymbolPaint.setColor(Color.WHITE);
+        currentLocationSymbolPaint.setStyle(Paint.Style.STROKE);
+        currentLocationSymbolPaint.setStrokeWidth(CURRENT_LOCATION_SYMBOL_THICKNESS);
+        currentLocationSymbolPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        pathPaint = new Paint();
+        pathPaint.setColor(Color.LTGRAY);
+        pathPaint.setStyle(Paint.Style.FILL);
+        pathPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
     }
 
     public void setLayoutGraph(LayoutGraph layoutGraph) {
         this.layoutGraph = layoutGraph;
+        startNode = (StreetNode) layoutGraph.findNodeById(0);
+        endNode = (ParkingNode) layoutGraph.findNodeById(16);
+        path = PathFinder.findPath(layoutGraph, startNode, endNode);
+        invalidate();
     }
 
     // resize rect to be in px instead of dp
@@ -217,6 +231,22 @@ public class ParkingView extends View {
                 occupiedSymbolWhitePaint);
     }
 
+    // takes unadjusted centerX and centerY in dp
+    private void drawCurrentLocationSymbol(Canvas canvas, float centerX, float centerY) {
+        float adjustedCenterX = Utils.dpToPx(centerX, getContext()) + minX;
+        float adjustedCenterY = Utils.dpToPx(centerY, getContext()) + minY;
+        canvas.drawCircle(
+                adjustedCenterX,
+                adjustedCenterY,
+                Utils.dpToPx(CURRENT_LOCATION_SYMBOL_RADIUS, getContext()),
+                currentLocationSymbolPaint);
+        canvas.drawCircle(
+                adjustedCenterX,
+                adjustedCenterY,
+                Utils.dpToPx(CURRENT_LOCATION_SYMBOL_RADIUS / 3, getContext()),
+                currentLocationSymbolPaint);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -227,7 +257,11 @@ public class ParkingView extends View {
             if (layoutNode instanceof StreetNode) {
                 StreetNode streetNode = (StreetNode) layoutNode;
                 Rect rect = adjustRectForCanvas(streetNode.rect);
-                canvas.drawRect(rect, streetNodePaint);
+                if (path.contains(layoutNode)) {
+                    canvas.drawRect(rect, pathPaint);
+                } else {
+                    canvas.drawRect(rect, streetNodePaint);
+                }
                 drawPaintBoundaries(streetNode, canvas, rect);
                 drawWallBoundaries(streetNode, canvas, rect);
             }
@@ -235,13 +269,13 @@ public class ParkingView extends View {
             if (layoutNode instanceof ParkingNode) {
                 ParkingNode parkingNode = (ParkingNode) layoutNode;
                 Rect rect = adjustRectForCanvas(parkingNode.rect);
-                if (parkingNode.isOccupied) {
-//                    canvas.drawRect(rect, occupiedParkingNodePaint);
-                    canvas.drawRect(rect, streetNodePaint);
-                    drawOccupiedSymbol(canvas, rect.centerX(), rect.centerY());
+                if (path.contains(layoutNode)) {
+                    canvas.drawRect(rect, pathPaint);
                 } else {
-//                    canvas.drawRect(rect, unoccupiedParkingNodePaint);
                     canvas.drawRect(rect, streetNodePaint);
+                }
+                if (parkingNode.isOccupied) {
+                    drawOccupiedSymbol(canvas, rect.centerX(), rect.centerY());
                 }
                 drawPaintBoundaries(parkingNode, canvas, rect);
                 drawWallBoundaries(parkingNode, canvas, rect);
@@ -264,5 +298,48 @@ public class ParkingView extends View {
                 drawArrow(arrowNodePaint, canvas, startX, startY, endX, endY);
             }
         }
+
+        drawCurrentLocationSymbol(canvas, startNode.centerX, startNode.centerY);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+
+        if (event.getAction() != MotionEvent.ACTION_DOWN) {
+            return true;
+        }
+
+        float eventX = event.getX();
+        float eventY = event.getY();
+
+        RectangleNode touchedNode = null;
+
+        for (LayoutNode layoutNode: layoutGraph.nodes) {
+            if ((!(layoutNode instanceof ParkingNode)) && (!(layoutNode instanceof StreetNode))) {
+                continue;
+            }
+            RectangleNode rectangleNode = (RectangleNode) layoutNode;
+            Rect rect = adjustRectForCanvas(rectangleNode.rect);
+            if (rect.contains((int) eventX, (int) eventY)) {
+                touchedNode = rectangleNode;
+                break;
+            }
+        }
+
+        if (touchedNode == null) {
+            return true;
+        } else if (touchedNode instanceof StreetNode) {
+            startNode = (StreetNode) touchedNode;
+        } else if (touchedNode instanceof ParkingNode) {
+            ParkingNode touchedParkingNode = (ParkingNode) touchedNode;
+            if (!touchedParkingNode.isOccupied) {
+                endNode = (ParkingNode) touchedNode;
+            }
+        }
+
+        path = PathFinder.findPath(layoutGraph, startNode, endNode);
+        invalidate();
+        return true;
     }
 }

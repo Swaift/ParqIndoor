@@ -25,6 +25,14 @@ public class LayoutNode {
     }
 
     public void buildAdjacentNodes(LayoutGraph layoutGraph) {
-        // TODO
+        for (int adjacentId: adjacentIds) {
+            LayoutNode adjacentNode = layoutGraph.findNodeById(adjacentId);
+            // find distance
+            double xDiff = adjacentNode.centerX - centerX;
+            double yDiff = adjacentNode.centerY - centerY;
+            double distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+            adjacentNodes.put(adjacentNode, distance);
+            continue;
+        }
     }
 }

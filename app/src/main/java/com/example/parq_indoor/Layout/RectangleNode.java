@@ -30,5 +30,7 @@ public class RectangleNode extends LayoutNode {
         rect = new Rect((int)left, (int)top, (int)right, (int)bottom);
         this.paintBoundaries = EnumSet.copyOf(paintBoundaries);
         this.wallBoundaries = EnumSet.copyOf(wallBoundaries);
+        centerX = rect.centerX();
+        centerY = rect.centerY();
     }
 }
